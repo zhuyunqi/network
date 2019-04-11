@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 28
@@ -25,30 +26,16 @@ android {
 }
 
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'network'
+// 上传命令 gradlew clean build bintrayUpload -PbintrayUser=用户名 -PbintrayKey=API Key -PdryRun=false
+publish {
+    userOrg = 'zhuyunqi'  //bintray注册的用户名（不是邮箱）
+    groupId = 'com.zyq.network'
+    artifactId = 'networklibrary'  //项目名称
+    publishVersion = '1.0.0'  //版本号
+    desc = 'network framework'  //项目描述。可空。
+    website = 'https://github.com/zhuyunqi/network'  //项目地址，一般填github地址。可空。
 
-    publishedGroupId = 'com.zyq.network'
-    libraryName = 'network'
-    artifact = 'networklibrary'
-
-    libraryDescription = 'The gradient ui that View can change from one background to another background. (Such as the background of ImageView, the color of TextView)'
-
-    siteUrl = 'https://github.com/wangdong20/AndroidGradientUI'
-    gitUrl = 'https://github.com/wangdong20/AndroidGradientUI.git'
-
-    libraryVersion = '1.0.1'
-
-    developerId = 'zyq'
-    developerName = 'zhuyunqi'
-    developerEmail = 'zhuyunqi_88@163.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
 }
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -57,8 +44,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compileOnly 'io.reactivex:rxjava:1.3.0'
-    compileOnly 'io.reactivex:rxandroid:1.1.0'
-    compileOnly 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-    compileOnly 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compileOnly 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compileOnly 'io.reactivex:rxandroid:1.2.1'
+    compileOnly 'com.squareup.retrofit2:retrofit:2.1.0'
+    compileOnly 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compileOnly 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 }
+
+
