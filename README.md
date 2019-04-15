@@ -29,7 +29,7 @@ public class BaseApp extends Application {
 3.写CallApi接口类，定义好接口api
 ~~~java
 public interface CallApi {
-    //下面是接口例子，更好使用方法可以参考Retrofit使用说明
+    //下面是接口例子，更多使用方法可以参考Retrofit使用说明
 
     @POST("你的请求接口(不带服务器地址)")
     Observable<HttpResult<HomePageBannerBean>> getHomePageData(@QueryMap Map<String, String> params);
