@@ -87,23 +87,23 @@ public  class LifeCycleActivity  {
 5.在需要请求网络的activity里引用即可：
 ~~~java
 Map<String, String> map = new HashMap<>(2);
-                map.put("columnId", "12");
-                map.put("pageSize", "10");
-                CallApi callApi = RetrofitBuilder.getDefaultInstance().build().create(CallApi.class);
-                Observable<HttpResult<HomePageBannerBean>> ob = callApi.getHomePageData(map);
+map.put("columnId", "12");
+map.put("pageSize", "10");
+CallApi callApi = RetrofitBuilder.getDefaultInstance().build().create(CallApi.class);
+Observable<HttpResult<HomePageBannerBean>> ob = callApi.getHomePageData(map);
 
-                HttpUtil.getInstance().toSubscribe(ob, new AbstractHandleSubscriber<HomePageBannerBean>() {
+HttpUtil.getInstance().toSubscribe(ob, new AbstractHandleSubscriber<HomePageBannerBean>() {
 
-                    @Override
-                    protected void onHandleResponse(HomePageBannerBean homePageBean) {
-                        Log.d("homePageBean", homePageBean.getResult().get(0).getContent());
-                    }
+      @Override
+    protected void onHandleResponse(HomePageBannerBean homePageBean) {
+       Log.d("homePageBean", homePageBean.getResult().get(0).getContent());
+           }
 
-                    @Override
-                    protected void onHandleFailure(String message) {
-                        super.onHandleFailure(message);
-                    }
-                }, lifecycleSubject);
+      @Override
+    protected void onHandleFailure(String message) {
+       super.onHandleFailure(message);
+            }
+     }, lifecycleSubject);
 ~~~            
                 
                 
