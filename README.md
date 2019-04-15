@@ -9,6 +9,58 @@
 
 3.AddCookieInterceptor //从SharedPreferences获取cookie，并add到请求头里
 
+注意：请求格式一般是下面的格式
+
+~~~java
+{
+   "code":"200",
+   "msg":"Return Successd!",
+   "data":{
+         "name":"张三"
+          "age":3
+   }
+}
+~~~
+
+下面算是所有实体的一个基类，data可以为任何数据类型
+
+~~~java
+public class HttpResult<T> {
+    private int code;
+    private String msg;
+    private T data;
+
+    public int getCode() {
+        return code;
+    }
+
+    public HttpResult setCode(int code) {
+        this.code = code;
+        return this;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public HttpResult<T> setMsg(String msg) {
+        this.msg = msg;
+        return this;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public HttpResult setData(T data) {
+        this.data = data;
+        return this;
+    }
+}
+~~~
+
+
+
 用法:
 
 1.添加 Gradle 依赖：
