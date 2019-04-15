@@ -97,12 +97,14 @@ HttpUtil.getInstance().toSubscribe(ob, new AbstractHandleSubscriber<HomePageBann
       @Override
     protected void onHandleResponse(HomePageBannerBean homePageBean) {
        Log.d("homePageBean", homePageBean.getResult().get(0).getContent());
-       }
+    
+    }
 
       @Override
     protected void onHandleFailure(String message) {
        super.onHandleFailure(message);
-       }
+    
+    }
 }, lifecycleSubject);
 ~~~            
                 
