@@ -1,13 +1,13 @@
 # network
 居于RxAndroid、retrofit的网络请求框架
 
-说明：该框架有三个拦截器类：
+说明：该框架有三个RetrofitBuilder实例：
 
-1.DefaultInterceptor   //默认拦截器，一般的请求用这个即可
+1.getDefaultInstance   //一般的请求用这个即可
 
-2.ReceivedCookiesInterceptor //获取cookie并保存在SharedPreferences中
+2.getSaveCookiesInstance //获取cookie并保存在SharedPreferences中
 
-3.AddCookieInterceptor //从SharedPreferences获取cookie，并add到请求头里
+3.getPostCookieInstance //从SharedPreferences获取cookie，并add到请求头里
 
 注意：请求格式一般是下面的格式
 
