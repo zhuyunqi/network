@@ -21,7 +21,7 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         ContextUtil.context = this;
-        Host.ApiHost = "http://www.hn-ssc.com/";
+        Host.ApiHost = "你的服务器地址";
     }
 }
 ~~~
@@ -29,8 +29,15 @@ public class BaseApp extends Application {
 3.写CallApi接口类，定义好接口api
 ~~~java
 public interface CallApi {
-    @POST("ssc-circle/news/findByPage.json")
+    //下面是接口例子，更好使用方法可以参考Retrofit使用说明
+
+    @POST("你的请求接口(不带服务器地址)")
     Observable<HttpResult<HomePageBannerBean>> getHomePageData(@QueryMap Map<String, String> params);
+    
+    //参数为json
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("你的请求接口(不带服务器地址)")
+    Observable<HttpResult<UserInfo>> login(@Body LoginReq param);
 }
 ~~~
 
