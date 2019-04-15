@@ -1,6 +1,15 @@
 # network
 居于RxAndroid、retrofit的网络请求框架
-用法
+
+说明：该框架有三个拦截器类：
+
+1.DefaultInterceptor   //默认拦截器，一般的请求用这个即可
+
+2.ReceivedCookiesInterceptor //获取cookie并保存在SharedPreferences中
+
+3.AddCookieInterceptor //从SharedPreferences获取cookie，并add到请求头里
+
+用法:
 
 1.添加 Gradle 依赖：
 
