@@ -23,7 +23,7 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ContextUtil.context = this;
+        NetworkContext.context = this;
     }
 }
 ~~~
@@ -43,7 +43,7 @@ public interface CallApi {
 }
 ~~~
 
-4.在Activity的基类设置lifecycleSubject：
+4.在Activity的基类设置lifecycleSubject,当Activity被destory时自动暂停网络请求
 ~~~java
 public  class LifeCycleActivity  {
     public final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject = PublishSubject.create();
