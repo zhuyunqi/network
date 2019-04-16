@@ -1,64 +1,5 @@
 # network
-居于RxAndroid、retrofit的网络请求框架
-
-说明：该框架有三个RetrofitBuilder实例：
-
-1.getDefaultInstance   //一般的请求用这个即可
-
-2.getSaveCookiesInstance //获取cookie并保存在SharedPreferences中
-
-3.getPostCookieInstance //从SharedPreferences获取cookie，并add到请求头里
-
-注意：请求格式一般是下面的格式
-
-~~~java
-{
-   "code":"200",
-   "msg":"Return Successd!",
-   "data":{
-         "name":"张三"
-          "age":3
-   }
-}
-~~~
-
-下面算是所有实体的一个基类，data可以为任何数据类型
-
-~~~java
-public class HttpResult<T> {
-    private int code;
-    private String msg;
-    private T data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public HttpResult setCode(int code) {
-        this.code = code;
-        return this;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public HttpResult<T> setMsg(String msg) {
-        this.msg = msg;
-        return this;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public HttpResult setData(T data) {
-        this.data = data;
-        return this;
-    }
-}
-~~~
-
+居于RxAndroid、retrofit、可管理生命周期的的网络请求框架
 
 
 用法:
@@ -66,7 +7,7 @@ public class HttpResult<T> {
 1.添加 Gradle 依赖：
 
     //这个就是请求工具类
-    implementation 'com.zyq.network:networklibrary:1.0.0'
+    implementation 'com.zyq.network:networklibrary:1.0.1'
     
     //请求网络需要的依赖包
     implementation 'io.reactivex:rxandroid:1.2.1'
@@ -83,7 +24,6 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         ContextUtil.context = this;
-        Host.ApiHost = "你的服务器地址";
     }
 }
 ~~~
@@ -146,28 +86,25 @@ public  class LifeCycleActivity  {
 }
 ~~~
 
-5.在需要请求网络的activity里引用即可：
+5.在需要请求网络的activity/fragment里引用即可：
 ~~~java
 Map<String, String> map = new HashMap<>(2);
 map.put("columnId", "12");
 map.put("pageSize", "10");
-CallApi callApi = RetrofitBuilder.getDefaultInstance().build().create(CallApi.class);
-Observable<HttpResult<HomePageBannerBean>> ob = callApi.getHomePageData(map);
+Observable ob = ApiService.getInstance().getDefaultService(CallApi.class, "服务器地址").getHomePageData(map);
+RxHelper.toSubscribe(ob, lifecycleSubject, new AbstractHandleSubscriber<HomePageBannerBean>() {
+   @Override
+   protected void onHandleResponse(HomePageBannerBean homePageBean) {
+       Log.d("homePageBean", homePageBean.getData().getResult().get(0).getContent());
+   }
+   
+});
+~~~ 
 
-HttpUtil.getInstance().toSubscribe(ob, new AbstractHandleSubscriber<HomePageBannerBean>() {
+6.ApiService的getDefaultService、getReceivedCookiesRetrofit、getAddCookieRetrofit用法说明
+  getDefaultService 一般用这个发送请求即可；
+  getReceivedCookiesRetrofit 拦截获取respone里的cookie并保存在SharedPreferences中，文件为：zyq_token，value为:cookie；
+  getAddCookieRetrofit 从SharedPreferences文件中获取cookie并放在请求头里传给服务器；
 
-      @Override
-    protected void onHandleResponse(HomePageBannerBean homePageBean) {
-       Log.d("homePageBean", homePageBean.getResult().get(0).getContent());
-    
-    }
-
-      @Override
-    protected void onHandleFailure(String message) {
-       super.onHandleFailure(message);
-    
-    }
-}, lifecycleSubject);
-~~~            
                 
                 
