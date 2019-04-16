@@ -1,30 +1,44 @@
 package zyq.library.http;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 /**
- * @author: zhu yun qi
+ * @author: zhuYunQi
  * @mail: zhuyunqi_88@163.com
- * @date: 2018/3/14
- * @describe: 对结果进行预处理
+ * @date: ${date}
+ * @describe:
  */
 public class RxHelper {
+    /**
+     * 添加线程管理并订阅
+     *
+     * @param ob
+     * @param lifecycleSubject
+     */
+    public static void toSubscribe(Observable ob, final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject, final AbstractHandleSubscriber subscriber) {
+        Observable.Transformer<Object, Object> result = bindUntilEvent(lifecycleSubject);
+        ob.compose(result)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
 
-    private static final int sucCode = 100;
+    }
 
     /**
+     * 生命周期管理
+     *
+     * @param lifecycleSubject
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<HttpResult<T>, T> handleResult(final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
-        return new Observable.Transformer<HttpResult<T>, T>() {
+    public static <T> Observable.Transformer<T, T> bindUntilEvent(final PublishSubject<ActivityLifeCycleEvent> lifecycleSubject) {
+        return new Observable.Transformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<HttpResult<T>> tObservable) {
+            public Observable<T> call(Observable<T> sourceObservable) {
                 Observable<ActivityLifeCycleEvent> compareLifecycleObservable =
                         lifecycleSubject.takeFirst(new Func1<ActivityLifeCycleEvent, Boolean>() {
                             @Override
@@ -32,39 +46,8 @@ public class RxHelper {
                                 return activityLifeCycleEvent.equals(ActivityLifeCycleEvent.DESTROY);
                             }
                         });
-                return tObservable.flatMap(new Func1<HttpResult<T>, Observable<T>>() {
-                    @Override
-                    public Observable<T> call(HttpResult<T> result) {
-                        if (sucCode == result.getCode()) {
-                            return createData(result.getData());
-                        } else {
-                            return Observable.error(new ApiException(result.getMsg()));
-                        }
-                    }
-                }).takeUntil(compareLifecycleObservable).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread());
+                return sourceObservable.takeUntil(compareLifecycleObservable);
             }
         };
     }
-
-    /**
-     * 创建成功的数据
-     *
-     * @param data
-     * @param <T>
-     * @return
-     */
-    private static <T> Observable<T> createData(final T data) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
-            @Override
-            public void call(Subscriber<? super T> subscriber) {
-                try {
-                    subscriber.onNext(data);
-                    subscriber.onCompleted();
-                } catch (Exception e) {
-                    subscriber.onError(e);
-                }
-            }
-        });
-    }
-
 }

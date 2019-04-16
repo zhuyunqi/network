@@ -2,9 +2,10 @@ package zyq.library.http;
 
 
 import android.util.Log;
+import android.widget.Toast;
 
 import rx.Subscriber;
-import zyq.library.utils.ContextUtil;
+import zyq.library.utils.NetworkContext;
 
 /**
  * @author zhuyunqi
@@ -25,7 +26,7 @@ public abstract class AbstractHandleSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         //判断网络不可以
-        if (!NetworkUtils.isNetworkAvailable(ContextUtil.getContext())) {
+        if (!NetworkUtils.isNetworkAvailable(NetworkContext.getContext())) {
             onHandleFailure("网络不可用");
         } else {
             onHandleFailure(e.getMessage());
@@ -45,6 +46,9 @@ public abstract class AbstractHandleSubscriber<T> extends Subscriber<T> {
      * @param message
      */
     protected void onHandleFailure(String message) {
+        if (NetworkContext.getContext() != null) {
+            Toast.makeText(NetworkContext.getContext(), message, Toast.LENGTH_SHORT).show();
+        }
         Log.d("onHandleFailure", message);
     }
 

@@ -9,5 +9,4 @@ package zyq.library.utils;
 public class Constants {
 
     public static final String COOKIE = "cookie";
-    public static final String TOKEN = "token";
 }

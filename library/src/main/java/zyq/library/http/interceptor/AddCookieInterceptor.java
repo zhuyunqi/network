@@ -1,5 +1,7 @@
 package zyq.library.http.interceptor;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -7,7 +9,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import zyq.library.utils.Constants;
-import zyq.library.utils.ContextUtil;
+import zyq.library.utils.NetworkContext;
 import zyq.library.utils.SharedPreferencesUtil;
 
 /**
@@ -18,7 +20,7 @@ import zyq.library.utils.SharedPreferencesUtil;
  */
 public class AddCookieInterceptor implements Interceptor {
 
-    private SharedPreferencesUtil sp = SharedPreferencesUtil.getInstance(ContextUtil.getContext());
+    private SharedPreferencesUtil sp = SharedPreferencesUtil.getInstance(NetworkContext.getContext());
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -29,6 +31,7 @@ public class AddCookieInterceptor implements Interceptor {
                 .method(request.method(), request.body())
                 .url(authorizedUrlBuilder.build())
                 .build();
+        Log.d("zyq-network:url:", request.url().toString());
         return chain.proceed(newRequest);
 
     }

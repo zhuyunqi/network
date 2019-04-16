@@ -1,5 +1,7 @@
 package zyq.library.http.interceptor;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -23,6 +25,7 @@ public class DefaultInterceptor implements Interceptor {
                 .method(request.method(), request.body())
                 .url(authorizedUrlBuilder.build())
                 .build();
+        Log.d("zyq-network:url:", request.url().toString());
         return chain.proceed(newRequest);
 
     }
