@@ -29,8 +29,11 @@ android {
 
 }
 
-
-// 上传命令  ./gradlew clean build bintrayUpload -PbintrayUser=zhuyunqi -PbintrayKey=b3eb93b01720a7d7a52255ebc5b7e29193ccac8a -PdryRun=false -x releaseAndroidJavadocs
+// 上传命令
+// ./gradlew clean build bintrayUpload
+// -PbintrayUser=zhuyunqi
+// -PbintrayKey=b3eb93b01720a7d7a52255ebc5b7e29193ccac8a
+// -PdryRun=false -x
 publish {
     userOrg = 'zhuyunqi'  //bintray注册的用户名（不是邮箱）
     groupId = 'com.zyq.network'
