@@ -15,7 +15,7 @@
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 
-2.在重写Application，在onCreate方法里初始化host,context：
+2.在重写Application，在onCreate方法里初始化context：
 
 ~~~java
 public class BaseApp extends Application {
