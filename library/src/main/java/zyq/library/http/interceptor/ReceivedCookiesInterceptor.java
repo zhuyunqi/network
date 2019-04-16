@@ -1,12 +1,15 @@
 package zyq.library.http.interceptor;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Interceptor;
+import okhttp3.Request;
 import okhttp3.Response;
 import zyq.library.utils.Constants;
-import zyq.library.utils.ContextUtil;
+import zyq.library.utils.NetworkContext;
 import zyq.library.utils.SharedPreferencesUtil;
 
 /**
@@ -16,12 +19,13 @@ import zyq.library.utils.SharedPreferencesUtil;
  * @describe: 解析Cookie并保存
  */
 public class ReceivedCookiesInterceptor implements Interceptor {
-    private SharedPreferencesUtil sp = SharedPreferencesUtil.getInstance(ContextUtil.getContext());
+    private SharedPreferencesUtil sp = SharedPreferencesUtil.getInstance(NetworkContext.getContext());
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Response resp = chain.proceed(chain.request());
-        List<String> cookies = resp.headers("Set-Cookie");
+        Response response = chain.proceed(chain.request());
+        Request request = chain.request();
+        List<String> cookies = response.headers("Set-Cookie");
         String cookieStr = "";
         if (cookies != null && cookies.size() > 0) {
             for (int i = 0; i < cookies.size(); i++) {
@@ -29,7 +33,8 @@ public class ReceivedCookiesInterceptor implements Interceptor {
             }
             sp.putSP(Constants.COOKIE, cookieStr);
         }
-        return resp;
+        Log.d("zyq-network:url:", request.url().toString());
+        return response;
     }
 
 }

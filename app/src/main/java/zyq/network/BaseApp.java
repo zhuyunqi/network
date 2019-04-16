@@ -2,9 +2,7 @@ package zyq.network;
 
 import android.app.Application;
 
-import okhttp3.OkHttpClient;
-import zyq.library.http.Host;
-import zyq.library.utils.ContextUtil;
+import zyq.library.utils.NetworkContext;
 
 
 /**
@@ -19,8 +17,7 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //ContextUtil.context = this;
-        Host.ApiHost = "http://www.hn-ssc.com/";
+        NetworkContext.context = this;
     }
 
 

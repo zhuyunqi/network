@@ -9,12 +9,12 @@ import android.util.Log;
  * @date: ${date}
  * @describe:
  */
-public class ContextUtil {
+public class NetworkContext {
     public static Context context;
 
     public static Context getContext() {
         if (context == null) {
-            Log.d("zyq-network", "请在 BaseApp 里设置 ContextUtil.context = this");
+            Log.d("zyq-network", "请在 BaseApp 里设置 NetworkContext.context = this");
         }
         return context;
     }
