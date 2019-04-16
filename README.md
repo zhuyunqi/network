@@ -103,9 +103,9 @@ RxHelper.toSubscribe(ob, lifecycleSubject, new AbstractHandleSubscriber<HomePage
 
 6.ApiService的getDefaultService、getReceivedCookiesRetrofit、getAddCookieRetrofit用法说明:<br>
 ~~~java
-  getDefaultService: 一般用这个发送请求即可；
-  getReceivedCookiesRetrofit: 拦截获取respone里的cookie并保存在SharedPreferences中，文件为：zyq_token，value为:cookie；
-  getAddCookieRetrofit: 从SharedPreferences文件中获取cookie并放在请求头里传给服务器；
+getDefaultService: 一般用这个发送请求即可；
+getReceivedCookiesRetrofit: 拦截获取respone里的cookie并保存在SharedPreferences中，文件为：zyq_token，value为:cookie；
+getAddCookieRetrofit: 从SharedPreferences文件中获取cookie并放在请求头里传给服务器；
 ~~~
                 
                 
