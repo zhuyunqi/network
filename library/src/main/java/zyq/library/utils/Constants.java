@@ -9,4 +9,14 @@ package zyq.library.utils;
 public class Constants {
 
     public static final String COOKIE = "cookie";
+
+    /**
+     * 超时时间设置
+     * 默认一分钟
+     */
+    public static class TimeOut {
+        public static int connectTimeout = 60;
+        public static int readTimeout = 60;
+        public static int writeTimeout = 60;
+    }
 }
